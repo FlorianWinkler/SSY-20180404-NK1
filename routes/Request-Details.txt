@@ -1,0 +1,59 @@
+Porto-Service
+=======================================================
+POST /porto
+    == Body ==
+    {"gewicht":3.1,"preis":27}
+
+    == Response ==
+    {"porto":5}
+
+
+
+Produkt-Service
+=======================================================
+    GET /product/2
+    == Response ==
+    {"name":"Mampf Burger","preis":3.49,"gewicht":0.35}
+
+    GET /product/?ids=[1,2]
+    == Response ==
+    [
+     {"name":"Berti Zuckerl","preis":2.99,"gewicht":0.15},
+     {"name":"Mampf Burger","preis":3.49,"gewicht":0.35}
+    ]
+
+
+Queue-Service
+=======================================================
+    Allgemeine Hinweise:
+
+    - am einfachsten kann man mehrere Queues mit einem "Master"-Objekt (key/value, {}) umsetzen,
+      bei dessen Einträgen der Key den Namen der jeweiligen Queue hat und als Value das jeweilige Queue-Array.
+
+    - Der spezielle Status-Code für eine leere Response kann mit response.status(204).end()
+      gesetzt & gesendet werden, response.json() aufrufen ist dann _nicht_ mehr notwendig.
+
+
+    POST /queue/meine_private_queue
+    == Body ==
+    {"value":123}
+    == Response ==
+    true
+
+    GET /queue/meine_private_queue
+    == Response ==
+    {"value":123}
+
+    GET /queue/leere_queue
+    == Response ==
+    -- kein Inhalt, Status-Code 204 --
+
+    POST /queue/irgendein_Name
+    == Body ==
+    {"message":"kann jedes beliebige JSON sein", "anmerkung": ["wirklich", "echt"]}
+    == Response ==
+    true
+
+    GET /queue/irgendein_Name
+    == Response ==
+    {"message":"kann jedes beliebige JSON sein", "anmerkung": ["wirklich", "echt"]}
